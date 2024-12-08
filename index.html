@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Form</title>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function () {
+            // https://dashboard.emailjs.com/admin/account
+            emailjs.init({
+                publicKey: "a1wL76_F90zQiGUUW",
+            });
+        })();
+    </script>
+    <script type="text/javascript">
+        window.onload = function () {
+            document.getElementById('registrationForm').addEventListener('submit', function (event) {
+                event.preventDefault();
+                // these IDs from the previous steps
+                emailjs.sendForm('service_4gy8aqn', 'template_7ki6x5p', this)
+                    .then(() => {
+                        console.log('SUCCESS!');
+                    }, (error) => {
+                        console.log('FAILED...', error);
+                    });
+            });
+        }
+    </script>
+
+    <!-- <link rel="stylesheet" href="style.css"> -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            height: 100vh;
+        }
+
+        .form-container {
+            max-width: 400px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        form h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #4caf50;
+        }
+
+        label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+
+        input,
+        select,
+        textarea,
+        button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .radio-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .radio-group input {
+            width: auto;
+            margin-right: 5px;
+        }
+
+        button {
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: transparent;
+            color: #4caf50;
+            border: 1px solid #4caf50;
+        }
+
+        textarea {
+            resize: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="form-container">
+        <form id="registrationForm">
+            <h2>Registration Form</h2>
+
+            <label for="fullname">Full Name:</label>
+            <input type="text" id="fullname" name="fullname" required placeholder="Enter your full name">
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required placeholder="Enter your email">
+
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required placeholder="Enter your username">
+
+            <label for="username">Password:</label>
+            <input type="text" id="Password" name="Password" required placeholder="Enter your Password">
+
+
+            <label for="gender">Gender:</label>
+            <select id="gender" name="gender" required>
+                <option value="" disabled selected>Select your gender</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+            </select>
+
+            <label for="note">Note:</label>
+            <textarea id="note" name="note" rows="4" placeholder="Enter additional notes"></textarea>
+
+            <label for="dob">Date of Birth:</label>
+            <input type="date" id="dob" name="dob" required>
+
+            <label for="phone">Phone Number:</label>
+            <input type="tel" id="phone" name="phone" required placeholder="Enter your phone number">
+
+            <label for="age">Age:</label>
+            <input type="number" id="age" name="age" required placeholder="Enter your age">
+
+            <label>Marital Status:</label>
+            <div class="radio-group">
+                <input type="radio" id="single" name="marital-status" value="single" required>
+                <label for="single">Single</label>
+
+                <input type="radio" id="married" name="marital-status" value="married" required>
+                <label for="married">Married</label>
+
+                <input type="radio" id="divorced" name="marital-status" value="divorced" required>
+                <label for="divorced">Divorced</label>
+
+                <input type="radio" id="widowed" name="marital-status" value="widowed" required>
+                <label for="widowed">Widowed</label>
+            </div>
+
+            <label for="file-upload">Upload File:</label>
+            <input type="file" id="file-upload" name="file-upload">
+
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const form = document.getElementById("registrationForm");
+
+            form.addEventListener("submit", (event) => {
+                // Prevent default form submission behavior
+                event.preventDefault();
+
+                // Collect form data
+                const formData = {
+                    fullname: document.getElementById("fullname").value,
+                    email: document.getElementById("email").value,
+                    username: document.getElementById("username").value,
+                    password: document.getElementById("Password").value,
+                    gender: document.getElementById("gender").value,
+                    note: document.getElementById("note").value,
+                    dob: document.getElementById("dob").value,
+                    phone: document.getElementById("phone").value,
+                    age: document.getElementById("age").value,
+                    maritalStatus: document.querySelector('input[name="marital-status"]:checked').value,
+                    file: document.getElementById("file-upload").files[0]?.name || "No file uploaded",
+                };
+
+                // Validate required fields (if additional validation is needed)
+                if (
+                    !formData.fullname ||
+                    !formData.email ||
+                    !formData.username ||
+                    !formData.password ||
+                    !formData.gender ||
+                    !formData.dob ||
+                    !formData.phone ||
+                    !formData.age ||
+                    !formData.maritalStatus
+                ) {
+                    alert("Please fill in all required fields.");
+                    return;
+                }
+
+                // Display confirmation message
+                alert("Form submitted successfully!");
+
+                // Log the form data to the console (or send it to a server)
+                console.log("Form Data:", formData);
+
+                // Reset the form
+                form.reset();
+            });
+        });
+
+    </script>
+</body>
+
+</html>
